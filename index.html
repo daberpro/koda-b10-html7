@@ -215,10 +215,13 @@
                         position = 1;
                     }
                     const num = Number(input[position]);
-                    if (Number.isNaN(num)) {
+                    if (Number.isNaN(num) || num === Infinity || num === -Infinity) {
                         return;
                     }
-                    input[position] = num / 100;
+                    input[position] = Number(num / 100);
+                    if(input[position].toString().length > 13){
+                        input[position] = input[position].toExponential(2);
+                    }
                     out();
                 });
 
