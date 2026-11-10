@@ -148,6 +148,14 @@
                 $("#output").text(input.map((d,i)=> ` ${symbol[i]}${d}`).join(operator));
             }
 
+            function setResult(){
+                try{
+                    input[0] = (eval(input.map((d,i)=> ` ${symbol[i]}${d}`).join(operator))).toFixed(2);
+                }catch(err){
+                    $("#output").text("Error");
+                }
+            }
+
             $(".input-number").click(function(index){
 
                 let position = 0;
@@ -181,7 +189,7 @@
 
                 if(operator.length !== 0){
                     if(input[1].length !== 0){
-                        input[0] = (eval(input.map((d,i)=> ` ${symbol[i]}${d}`).join(operator))).toFixed(2);
+                        setResult();
                         operator = " " + $(this).attr("op");
                         input[1] = "";
                         resetSymbol();
@@ -204,7 +212,7 @@
 
             $("#result").click(function(){
 
-                input[0] = (eval(input.map((d,i)=> ` ${symbol[i]}${d}`).join(operator))).toFixed(2);
+                setResult();
                 input[1] = "";
                 operator = "";
                 resetSymbol();
