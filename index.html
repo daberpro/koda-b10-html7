@@ -82,7 +82,7 @@
 
             .calculator > .output-screen > .output-container {
                 width: 100%;
-                height: 60px;
+                height: fit-content;
                 align-items: center;
                 justify-content: end;
                 display: flex;
@@ -154,8 +154,12 @@
                 }
 
                 function out() {
-                    $("#output").text(
-                        input.map((d, i) => `${symbol[i]}${d}`).join(operator),
+                    $("#output").html(
+                        input.map((d, i) => `${symbol[i]}${d}`).join(operator)
+                            .replace("/","&divide;")
+                            .replace("*","&times;")
+                            .replace("+","&plus;")
+                            .replace("-","&minus;")
                     );
                 }
 
@@ -183,6 +187,11 @@
                 }
 
                 $(".input-number").click(function (index) {
+
+                    if(input[0] === "Err div by 0"){
+                        return;
+                    }
+
                     let position = 0;
                     if (operator.length !== 0) {
                         position = 1;
@@ -199,6 +208,9 @@
                 });
 
                 $("#plusminus").click(function () {
+                    if(input[0] === "Err div by 0"){
+                        return;
+                    }
                     let position = 0;
                     if (operator.length !== 0) {
                         position = 1;
@@ -226,10 +238,9 @@
                 });
 
                 $(".operator").click(function () {
-                    if (input[0].length === 0) {
+                    if (input[0].length === 0 || input[0] === "Err div by 0") {
                         return;
                     }
-
                     if (operator.length !== 0) {
                         if (input[1].length !== 0) {
                             setResult();
@@ -251,6 +262,9 @@
                 });
 
                 $("#result").click(function () {
+                    if(input[0] === "Err div by 0" || input[1].length === 0){
+                        return;
+                    }
                     setResult();
                     input[1] = "";
                     operator = "";
